@@ -65,6 +65,10 @@ body {
             margin-left: 8.5rem;
             padding-bottom: 2rem;
 
+            @media only screen and (max-width: $bp-largest) {
+                margin-left: -14.5rem;
+            }
+
 
             @media only screen and (max-width: $bp-large) {
                 margin-left: -14rem;
@@ -124,7 +128,12 @@ body {
                 }
 
                 @media only screen and (max-width: $bp-smallest) {
-                    margin-left: 18rem;
+                    margin-left: 17rem;
+                }
+
+                @media only screen and (max-width: $bp-smallest-second) {
+                    margin-left: 9.5rem;
+                    width: 41rem;
                 }
 
                 .form-container {
