@@ -1,209 +1,196 @@
-import Head from 'next/head'
+import React from "react";
+import Link from "next/link";
 
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+class SignUpForm extends React.Component {
+  formData;
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      interests: "",
+      error: "",
+      errorMsg: "",
+      disabled: false,
+      enabled: false,
+    };
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    this.handleEmailInput = this.handleEmailInput.bind(this);
+    this.handleInterestInput = this.handleInterestInput.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.isValid = this.isValid.bind(this);
+  }
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+  handleEmailInput(event) {
+    let isValidField = this.isValid(event.target);
+    console.log(isValidField);
+    this.setState({
+      email: event.target.value,
+    });
+  }
 
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+  handleInterestInput(event) {
+    this.setState({
+      interests: event.target.value,
+    });
+  }
 
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/zeit/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+  handleFormSubmit(event) {
+    event.preventDefault();
+    this.formData = JSON.parse(localStorage.getItem("userInfo"));
+    console.log(this.formData);
+    if (localStorage.getItem("userInfo")) {
+      for (let key in localStorage) {
+        if (!localStorage.hasOwnProperty(key)) {
+          continue;
         }
+        let data = localStorage.getItem(key);
+        data = data ? JSON.parse(data) : {};
+        localStorage.setItem("userInfo", JSON.stringify(data));
+      }
+      this.setState({
+        email: this.formData.email,
+        interests: this.formData.interests,
+        enabled: true,
+      });
+    } else {
+      this.setState({
+        email: "",
+        interests: "",
+        enabled: false,
+      });
+    }
+  }
 
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
+  isValid(input) {
+    if (input.getAttribute("type") === "email" && input.value !== "") {
+      if (!this.validateEmail(input.value)) {
+        this.setState({
+          error: true,
+          errorMsg: "Please enter a valid email address",
+          disabled: true,
+        });
+        return false;
+      } else {
+        this.setState({ error: false, errorMsg: "", disabled: false });
+      }
+    }
+    return true;
+  }
 
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
+  validateEmail(value) {
+    let result = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return result.test(value);
+  }
 
-        footer img {
-          margin-left: 0.5rem;
-        }
 
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
 
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
+  UNSAFE_componentWillUpdate = (nextProps, nextState) => {
+    localStorage.setItem("userInfo", JSON.stringify(nextState));
+  };
 
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
+  render() {
+    const { email, interests, error, errorMsg } = this.state;
 
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+    return (
+      <div className="layout-container">
+        { this.state.enabled ? (
+              <section className="main-content">
+              <div>
+                <h1 className="heading-text">Internship Signup Form</h1>
+                <div className="bottom-border"></div>
+                <h1 className="heading-thanks">Thanks for your interest!</h1>
+                <p className="p-text">
+                  We will review your application and contact you for addition
+                  information should your background and experience meet the 
+                  requirements of one of our oppenings
+                </p>
+              </div>
+            </section>
+            ) : 
+          (<section className="main-content">
+            <div>
+              <h1 className="heading-text">Internship Signup Form</h1>
+              <div className="bottom-border"></div>
+              <p className="p-text">
+                Prepare for your career with a Project Management,
+                Web-Development, Graphic design, or Digital Marketing Internship
+                at Nothern
+              </p>
+            </div>
+            <div className="container">
+              <form>
+                {error && (
+                  <div
+                    style={{
+                      color: "#ffffff",
+                      marginBottom: "5px",
+                      marginTop: "10px",
+                      textAlign: "center",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    {errorMsg}
+                  </div>
+                )}
+                <div className="container-row">
+                  <div className="form-container">
+                    <input
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={this.handleEmailInput}
+                      placeholder="Your Email Address"
+                      required
+                    />
+                  </div>
+                  <div className="form-container">
+                    <select
+                      name="interests"
+                      value={interests}
+                      onChange={this.handleInterestInput}
+                    >
+                      <option value="">Your interests</option>
+                      <option name="devops" value="devops">
+                        DevOps
+                      </option>
+                      <option name="frontend" value="frontend">
+                        Frontend
+                      </option>
+                      <option name="backend" value="backend">
+                        Backend
+                      </option>
+                      <option name="fullstack" value="fullstack">
+                        Full Stack
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div className="btn">
+                  <Link href="/" className="register">
+                    <button
+                      type="submit"
+                      href="#"
+                      className="register"
+                      disabled={this.state.enabled}
+                      disabled={
+                        !this.state.email ||
+                        !this.state.interests ||
+                        this.state.disabled
+                      }
+                      onClick={this.handleFormSubmit}
+                    >
+                      {!this.state.enabled ? "Sign Up Now" : "Submitting..."}
+                      &#9656;
+                    </button>
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </section>
+          )}
+      </div>
+    );
+  }
 }
+
+export default SignUpForm;

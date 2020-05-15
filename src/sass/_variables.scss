@@ -1,0 +1,22 @@
+//colors
+$dark: #282828;
+$red: #d02035;
+$grey: #797979;
+$input-size: .9rem; 
+
+$bp-largest: 75em;     // 1200px
+$bp-largest-second: 64em;     // 1024px
+$bp-large: 68.75em;    // 1100px
+$bp-large-second: 62.6em;  // 1000px
+$bp-medium: 56.25em;   // 900px
+$bp-second-medium: 48em; //768px
+$bp-small: 37.5em;     // 600px
+$bp-smallest: 26.56em; // 425px
+
+
+// Fonts
+// Credit: https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/
+$base_font_family:  "Raleway", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto !default;
+$mono_font_family: "Nimbus Mono", "Segoe UI Mono", "Roboto Mono", Menlo, Courier, monospace !default;
+$fallback_font_family: "Helvetica Neue", sans-serif !default;
+$body_font_family: $base_font_family, $fallback_font_family !default;
