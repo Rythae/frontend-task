@@ -62,9 +62,26 @@ body {
         .heading-thanks {
             width: 60rem;
             font-size: 2rem;
-            text-align: left;
-            margin-left: 4rem;
+            margin-left: 8.5rem;
             padding-bottom: 2rem;
+
+
+            @media only screen and (max-width: $bp-large) {
+                margin-left: -14rem;
+            }
+
+            @media only screen and (max-width: $bp-largest-second) {
+                margin-left: -17rem;
+            }
+
+            @media only screen and (max-width: $bp-large-second) {
+                margin-left: -17rem;
+            }
+
+
+            @media only screen and (max-width: $bp-second-medium) {
+                margin-left: -9.4rem;
+            }
         }
 
         .p-text {
