@@ -10,6 +10,7 @@ module.exports = withSass({
 		outputStyle: 'compressed',
 	},
 	postcssLoaderOptions: {
+        // parser: true,
 		autoprefixer: true,
 	},
 });

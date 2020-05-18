@@ -2,9 +2,7 @@ module.exports = {
   plugins: {
     'postcss-import': {},
     'postcss-flexbugs-fixes': {},
-     autoprefixer: {
-      flexbox: 'no-2009',
-     },
+     autoprefixer: {},
     'postcss-preset-env': { stage: 2 },
   },
 };
