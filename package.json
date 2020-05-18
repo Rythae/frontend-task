@@ -14,6 +14,19 @@
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
+  "browserslist": [
+    ">= 0.5%",
+    "chrome >= 42",
+    "and_chr >= 42",
+    "and_ff >= 38",
+    "android >= 4.4",
+    "edge >= 12",
+    "firefox >= 38",
+    "ie >= 11",
+    "ios_saf >= 9",
+    "safari >= 9",
+    "node 10"
+  ],
   "devDependencies": {
     "autoprefixer": "^9.8.0"
   }
