@@ -180,7 +180,7 @@ class SignUpForm extends React.Component {
                       onClick={this.handleFormSubmit}
                     >
                       {!this.state.enabled ? "Sign Up Now" : "Submitting..."}
-                      &#9656;
+                      <small>&#9656;</small>
                     </button>
                   </Link>
                 </div>
